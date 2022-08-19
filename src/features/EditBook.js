@@ -1,41 +1,42 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { editBook } from './BookSlice';
 import { useNavigate } from 'react-router-dom';
-import { addBook } from './BookSlice';
 
-const AddBook = () => {
-    const [title, setTitle] = useState();
-    const [author, setAuthor] = useState();
-    
-    const numberOfBooks = useSelector(state=> state.bookReducer.books.length);
-
-
+const EditBook = () => {
+    const location = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleSubmit = (e) =>{
+
+    const [id, setToBookId] = useState(location.state.id);
+    const [title, setToBookTitle] = useState(location.state.title);
+    const [author, setBookAuthor] = useState(location.state.author);
+
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const book = {id: numberOfBooks+1, title, author}
-        dispatch(addBook(book));
-        e.value = '';
+
+        dispatch(editBook({id, title, author}))   
         navigate("/show-book", {replace: true});
-        
 
     }
 
     return (
         <div>
-            <h1>Add Book</h1>
+            <h1>Edit Book</h1>
+
             <form onSubmit={handleSubmit}>
+
                 <div>
                     <label  style={{marginRight: "44px", fontWeight: "bold"}} htmlFor="title">Title</label>
                     <input
                     type="text"
-                    placeholder='Book title'
                     id='title'
                     name='title'
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
+                    value={title}
+                    onChange={(e) => setToBookTitle(e.target.value)}
                     />
                 </div>
 
@@ -43,17 +44,17 @@ const AddBook = () => {
                     <label  style={{marginRight: "25px", fontWeight: "bold"}} htmlFor="author">Author</label>
                     <input
                     type="text"
-                    placeholder='Book author'
                     id='author'
                     name='author'
-                    onChange={(e) => setAuthor(e.target.value)}
-                    required
+                    value={author}
+                    onChange={(e) => setBookAuthor(e.target.value)}
                     />
                 </div>
-                <button type="submit">Add Book</button>
+                <button type="submit">Save</button>
             </form>
+
         </div>
     );
 };
 
-export default AddBook;
+export default EditBook;
