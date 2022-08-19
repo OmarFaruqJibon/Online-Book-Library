@@ -9,18 +9,15 @@ const EditBook = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
-    const [id, setToBookId] = useState(location.state.id);
-    const [title, setToBookTitle] = useState(location.state.title);
-    const [author, setBookAuthor] = useState(location.state.author);
-
+    const [id, setId] = useState(location.state.id);
+    const [title, setTitle] = useState(location.state.title);
+    const [author, setAuthor] = useState(location.state.author);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         dispatch(editBook({id, title, author}))   
         navigate("/show-book", {replace: true});
-
     }
 
     return (
@@ -28,7 +25,6 @@ const EditBook = () => {
             <h1>Edit Book</h1>
 
             <form onSubmit={handleSubmit}>
-
                 <div>
                     <label  style={{marginRight: "44px", fontWeight: "bold"}} htmlFor="title">Title</label>
                     <input
@@ -36,7 +32,7 @@ const EditBook = () => {
                     id='title'
                     name='title'
                     value={title}
-                    onChange={(e) => setToBookTitle(e.target.value)}
+                    onChange={(e) => setTitle(e.target.value)}
                     />
                 </div>
 
@@ -47,7 +43,7 @@ const EditBook = () => {
                     id='author'
                     name='author'
                     value={author}
-                    onChange={(e) => setBookAuthor(e.target.value)}
+                    onChange={(e) => setAuthor(e.target.value)}
                     />
                 </div>
                 <button type="submit">Save</button>

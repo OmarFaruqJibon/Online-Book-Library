@@ -9,18 +9,15 @@ const AddBook = () => {
     
     const numberOfBooks = useSelector(state=> state.bookReducer.books.length);
 
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleSubmit = (e) =>{
         e.preventDefault();
+
         const book = {id: numberOfBooks+1, title, author}
         dispatch(addBook(book));
-        e.value = '';
         navigate("/show-book", {replace: true});
-        
-
     }
 
     return (
